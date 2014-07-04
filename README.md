@@ -5,7 +5,7 @@ A set of scripts to set up a DoESLiverpool DoorBot.
 Steps:
 
  * Manually install stock raspbian.
-  * Enable SSH, ideally while SD card is plugged into local machine.
+ * Enable SSH, ideally while SD card is plugged into local machine.
  * Set up networking, WiFi if necessary
  * Run apt-get update/upgrade
  * Set up the door entry system
