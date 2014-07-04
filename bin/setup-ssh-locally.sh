@@ -11,8 +11,8 @@ fi
 
 SDPATH="$1"
 
-touch $SDPATH/etc/SSHFLAG
+touch "$SDPATH/etc/SSHFLAG"
 
-cp scripts/enable-ssh.sh $SDPATH/sbin/
+cp scripts/enable-ssh.sh "$SDPATH/sbin/"
 
-sed 's/exit 0/sh /sbin/enable-ssh.sh\nexit 0/' $SDPATH/etc/rc.local
+perl -p -e 's/exit 0/sh \/sbin\/enable-ssh.sh\nexit 0/' "$SDPATH/etc/rc.local"
