@@ -80,11 +80,63 @@ if change_ssh_port
 end
 
 Net::SSH.start(LCConfig.env["hostname"], 'pi', :port => LCConfig.env["port"].to_i ) do |ssh|
-  stdout = ""
-  ssh.exec!("ls -l /home/pi/") do |channel, stream, data|
-    stdout << data if stream == :stdout
+  ssh.exec!("sudo apt-get update; sudo apt-get upgrade -y") do |channel, stream, data|
+    puts data if stream == :stdout
   end
-  puts stdout
+  ssh.exec!("sudo sed -i 's/^blacklist i2c-bcm2708/#blacklist i2c-bcm2708/' /etc/modprobe.d/raspi-blacklist.conf") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+  ssh.exec!("sudo bash -c \"echo 'i2c-dev' > /etc/modules\"") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+  ssh.exec!("sudo modprobe i2c-dev") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+  ssh.exec!("sudo bash -c \"echo 'export DOORBOT_ENV=\"#{ARGV[0]}\"' > /etc/doorbot-env\"") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+  ssh.exec!("sudo apt-get install -y screen ruby espeak") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+  ssh.exec!("sudo gem install bundle") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+  ssh.exec!("rm -rf logcards; git clone https://github.com/DoESLiverpool/logcards.git; cd logcards; bundle install") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+
+  ssh.exec!("rm /home/pi/.ssh/id_rsa; rm /home/pi/.ssh/id_rsa.pub; ssh-keygen -q -f /home/pi/.ssh/id_rsa -N ''") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+
+  puts "SSH keys generated, please add this public key to bitbucket:"
+  ssh.exec!("cat /home/pi/.ssh/id_rsa.pub") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+  puts "Press enter when you have added key to bitbucket"
+  $stdin.gets
+
+  ssh.exec!("cd /home/pi/logcards/; git clone git@bitbucket.org:doesliverpool/doorbots-config.git") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+
+  ssh.exec!("ln -s /home/pi/logcards/doorbots-config/config.yaml /home/pi/logcards/config.yaml") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+
+  
+
+  ssh.exec!("sudo cp /home/pi/logcards/init/logcards /etc/init.d/") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+
+  ssh.exec!("sudo /usr/sbin/update-rc.d -f logcards defaults") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
+
+  ssh.exec!("sudo /etc/init.d/logcards start") do |channel, stream, data|
+    puts data if stream == :stdout
+  end
 
   ssh.loop
 end
