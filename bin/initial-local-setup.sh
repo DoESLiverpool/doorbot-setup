@@ -27,7 +27,7 @@ fi
 echo "Please enter password for WiFi - $SSID"
 read PASSWORD
 
-sed 's/wpa-roam/#wpa-roam/' "$SDPATH/etc/network/interfaces"
+sed -i 's/wpa-roam/#wpa-roam/' "$SDPATH/etc/network/interfaces"
 
 cat - > "$SDPATH/etc/wpa.conf" <<EOF
 network={
