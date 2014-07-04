@@ -15,7 +15,7 @@ touch "$SDPATH/etc/SSHFLAG"
 
 cp scripts/enable-ssh.sh "$SDPATH/sbin/"
 
-perl -p -i -e 's/sh \/sbin\/enable-ssh.sh//g; s/exit 0/sh \/sbin\/enable-ssh.sh\nexit 0/' "$SDPATH/etc/rc.local"
+perl -p -i -e 's/sh \/sbin\/enable-ssh.sh//g; s/^exit 0$/sh \/sbin\/enable-ssh.sh\nexit 0/' "$SDPATH/etc/rc.local"
 
 echo "Please enter SSID or leave blank for DoESLiverpool."
 read USER_SSID
@@ -28,6 +28,7 @@ echo "Please enter password for WiFi - $SSID"
 read PASSWORD
 
 sed -i 's/wpa-roam/#wpa-roam/' "$SDPATH/etc/network/interfaces"
+echo "wpa-conf /etc/wpa.conf" >> "$SDPATH/etc/network/interfaces"
 
 cat - > "$SDPATH/etc/wpa.conf" <<EOF
 network={
