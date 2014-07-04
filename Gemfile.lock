@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    net-ssh (2.9.1)
+    tzinfo (0.3.39)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  net-ssh
+  tzinfo
