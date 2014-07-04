@@ -27,7 +27,9 @@ fi
 echo "Please enter password for WiFi - $SSID"
 read PASSWORD
 
+sed -i '1 a auto wlan0' "$SDPATH/etc/network/interfaces"
 sed -i 's/wpa-roam/#wpa-roam/' "$SDPATH/etc/network/interfaces"
+sed -i 's/iface wlan0 inet manual/iface wlan0 inet dhcp/' "$SDPATH/etc/network/interfaces"
 echo "wpa-conf /etc/wpa.conf" >> "$SDPATH/etc/network/interfaces"
 
 cat - > "$SDPATH/etc/wpa.conf" <<EOF
