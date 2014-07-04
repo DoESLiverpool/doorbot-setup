@@ -4,7 +4,7 @@ usage() {
     echo "usage: setup-wifi-locally.sh <path-to-sd>"
 }
 
-if [ "$1" == "" ]; then
+if [ "$1" = "" ]; then
     usage
     exit
 fi
