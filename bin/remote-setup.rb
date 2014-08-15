@@ -86,7 +86,7 @@ Net::SSH.start(LCConfig.env["hostname"], 'pi', :port => LCConfig.env["port"].to_
   ssh.exec!("sudo sed -i 's/^blacklist i2c-bcm2708/#blacklist i2c-bcm2708/' /etc/modprobe.d/raspi-blacklist.conf") do |channel, stream, data|
     puts data if stream == :stdout
   end
-  ssh.exec!("sudo bash -c \"echo 'i2c-dev' > /etc/modules\"") do |channel, stream, data|
+  ssh.exec!("sudo bash -c \"echo 'i2c-dev' >> /etc/modules\"") do |channel, stream, data|
     puts data if stream == :stdout
   end
   ssh.exec!("sudo modprobe i2c-dev") do |channel, stream, data|
