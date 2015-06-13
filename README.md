@@ -20,7 +20,7 @@ git clone https://bitbucket.org/doesliverpool/doorbots-config.git
  * Set up Pi hardware and plug SD card into Pi
  * Use nmap (eg: `nmap -p 22 192.168.0.* --open`), router or monitor to find IP address of Pi once booted.
  * Set up SSH keys, ideally using ssh-copy-id or manually (place contents of your .ssh/id_rsa.pub into .ssh/authorized_keys on doorbot)
- * Run `ruby remote-setup.rb -s <doorbot-environment` which will:
+ * Run `ruby remote-setup.rb -s <doorbot-environment>` which will:
   * Set up SSH to run from alternative port
    * Leave off the `-s` option once this step has been completed if you need to re-run the script.
   * Run apt-get update/upgrade
