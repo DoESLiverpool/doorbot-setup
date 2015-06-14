@@ -33,6 +33,10 @@ cp scripts/enable-ssh.sh "$MOUNTED_SD_PATH/sbin/"
 
 perl -p -i -e 's/sh \/sbin\/enable-ssh.sh//g; s/^exit 0$/sh \/sbin\/enable-ssh.sh\nexit 0/' "$MOUNTED_SD_PATH/etc/rc.local"
 
+# Set up bitbucket.org as a known host, so the git clone in remote setup doesn't
+# prompt for the host verification step 
+cp known_hosts.bitbucket "$MOUNTED_SD_PATH/home/pi/.ssh/"
+
 echo "Please enter SSID or leave blank for DoESLiverpool."
 read USER_SSID
 if [ "$USER_SSID" = "" ]; then
