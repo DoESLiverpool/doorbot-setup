@@ -1,0 +1,10 @@
+#!/bin/sh
+export DISPLAY=:0
+xset s off      # don't activate screensaver
+xset -dpms      # disable DPMS (Energy Star) features.
+xset s noblank  # don't blank the video device
+
+matchbox-window-manager &
+unclutter & # Get rid of the mouse cursor
+kweb3 -CZDJK+-zbhrqfpoklgtjneduwxyavcsmi:#=?! /home/pi/doesscreens/index.html
+

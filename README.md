@@ -31,10 +31,7 @@ git clone https://bitbucket.org/doesliverpool/doorbots-config.git
   * Set up the door entry system
    * Git clone the logcards and config repositories
    * Copy the startup script into /etc/init/
-  
-## To be done
-  * The following does not occur yet and needs to be added:
-   * If the env requires it, set up the door screen
-    * Install chromium
-    * Git clone the doesscreens repository
-    * Copy the startup script into /etc/init
+  * If the env requires it, set up the door screen
+   * Install chromium
+   * Git clone the doesscreens repository
+   * Copy the startup script into /etc/init
