@@ -146,6 +146,11 @@ Net::SSH.start(LCConfig.env["hostname"], 'pi', :port => LCConfig.env["port"].to_
 
   ssh.loop
 end
+Net::SCP.start(LCConfig.env["hostname"], 'pi', :port => LCConfig.env["port"].to_i ) do |scp|
+  scp.upload! "../scripts/reload-local-config.sh", "/home/pi/"
+  scp.upload! "../scripts/reload-all-config.sh", "/home/pi/"
+  scp.upload! "../scripts/ssh_config", "/home/pi/.ssh/config"
+end
 
 # See if we need to pull in a web browser and doesscreens
 if LCConfig.env["doesscreens"]
