@@ -57,19 +57,9 @@ F 0 "J1" H 4950 3150 60  0000 C CNN
 F 1 "RasPI_IO_Header" H 4950 1750 60  0000 C CNN
 F 2 "Socket_Strips:Socket_Strip_Straight_2x13" H 4950 2450 60  0001 C CNN
 F 3 "" H 4950 2450 60  0000 C CNN
+F 4 "1098052" H 4950 2450 60  0001 C CNN "Farnell Part"
 	1    4950 2450
 	1    0    0    -1  
-$EndComp
-$Comp
-L RM50-xx11 RL1
-U 1 1 55E0CBF6
-P 6700 2550
-F 0 "RL1" H 7150 2700 50  0000 L CNN
-F 1 "RM50-xx11" H 7150 2600 50  0000 L CNN
-F 2 "Relays_ThroughHole:Relay_SPDS_OMRON-G6E" H 6700 2550 60  0001 C CNN
-F 3 "" H 6700 2550 60  0000 C CNN
-	1    6700 2550
-	1    0    0    1   
 $EndComp
 $Comp
 L CONN_01X06 P1
@@ -80,7 +70,7 @@ F 1 "SL030 RFID" V 3500 2100 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Angled_1x06" H 3400 2100 60  0001 C CNN
 F 3 "" H 3400 2100 60  0000 C CNN
 	1    3400 2100
-	-1   0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L CONN_01X02 P3
@@ -90,8 +80,9 @@ F 0 "P3" H 7450 2150 50  0000 C CNN
 F 1 "Door Solenoid" V 7550 2000 50  0000 C CNN
 F 2 "w_conn_screw:mstba_2,5%2f2-g-5,08" H 7450 2000 60  0001 C CNN
 F 3 "" H 7450 2000 60  0000 C CNN
+F 4 "2396251" H 7450 2000 60  0001 C CNN "Farnell Part"
 	1    7450 2000
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 $Comp
 L CONN_01X04 P2
@@ -101,6 +92,7 @@ F 0 "P2" H 6450 1850 50  0000 C CNN
 F 1 "Molex HDD Power" V 6550 1600 50  0000 C CNN
 F 2 "w_conn_pc:conn_hdd_15-24-4449" H 6450 1600 60  0001 C CNN
 F 3 "" H 6450 1600 60  0000 C CNN
+F 4 "148086" H 6450 1600 60  0001 C CNN "Farnell Part"
 	1    6450 1600
 	0    -1   -1   0   
 $EndComp
@@ -109,7 +101,7 @@ L R R1
 U 1 1 55EB05B7
 P 5950 3100
 F 0 "R1" V 6030 3100 50  0000 C CNN
-F 1 "R" V 5950 3100 50  0000 C CNN
+F 1 "220R" V 5950 3100 50  0000 C CNN
 F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 5880 3100 30  0001 C CNN
 F 3 "" H 5950 3100 30  0000 C CNN
 	1    5950 3100
@@ -168,15 +160,11 @@ Wire Wire Line
 Wire Wire Line
 	6300 1850 5750 1850
 Wire Wire Line
-	6400 1800 6400 2050
-Wire Wire Line
-	6400 2050 5750 2050
-Wire Wire Line
 	6600 1800 6600 1950
 Wire Wire Line
 	5750 2850 5950 2850
 Wire Wire Line
-	4000 3550 6500 3550
+	4000 3550 7050 3550
 Wire Wire Line
 	4000 3550 4000 3050
 Wire Wire Line
@@ -192,7 +180,7 @@ Wire Wire Line
 Wire Wire Line
 	6150 2850 6150 2700
 Wire Wire Line
-	6500 2850 6500 3150
+	6500 2750 6500 3150
 Wire Wire Line
 	5950 2850 5950 2950
 Wire Wire Line
@@ -202,15 +190,35 @@ Wire Wire Line
 Wire Wire Line
 	6600 1950 7250 1950
 Wire Wire Line
-	7250 2050 7250 3000
+	7250 3000 7250 2050
 Wire Wire Line
-	7250 3000 7000 3000
-Wire Wire Line
-	7000 3000 7000 2850
-Wire Wire Line
-	6900 2250 6900 2150
-Wire Wire Line
-	6900 2150 6500 2150
+	6800 3000 7250 3000
 Connection ~ 6300 2250
 Connection ~ 6300 1850
+$Comp
+L RELAY_HJR-3FF_Z RLY1
+U 1 1 55EC4E47
+P 6650 2550
+F 0 "RLY1" H 6650 2800 60  0000 C CNN
+F 1 "RELAY_HJR-3FF_Z" H 6650 2315 60  0000 C CNN
+F 2 "w_relay:relay_hjr-3ff_z" H 6650 2550 60  0000 C CNN
+F 3 "" H 6650 2550 60  0000 C CNN
+F 4 "2325631" H 6650 2550 60  0001 C CNN "Farnell Part"
+	1    6650 2550
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	6500 2150 6750 2150
+Wire Wire Line
+	6750 2150 6750 2350
+Wire Wire Line
+	6500 2250 6500 2350
+Connection ~ 6500 2850
+Wire Wire Line
+	6800 2750 6800 3000
+Wire Wire Line
+	6400 1800 7050 1800
+Wire Wire Line
+	7050 1800 7050 3550
+Connection ~ 6500 3550
 $EndSCHEMATC
