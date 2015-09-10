@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /home/adrian/sandbox/github/doorbot-setup/hardware/pi-interface/pi-interface.sch)
-    (date "Sun 06 Sep 2015 16:17:27 BST")
-    (tool "Eeschema 0.201509030901+6151~29~ubuntu15.04.1-product")
+    (date "Thu 10 Sep 2015 19:27:26 BST")
+    (tool "Eeschema 0.201509091501+6172~30~ubuntu15.04.1-product")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -39,7 +39,7 @@
       (tstamp 55E0D7B3))
     (comp (ref P2)
       (value "Molex HDD Power")
-      (footprint w_conn_pc:conn_hdd_15-24-4449)
+      (footprint w_conn_screw:mstbva_2,5%2f4-g-5,08)
       (fields
         (field (name "Farnell Part") 148086))
       (libsource (lib conn) (part CONN_01X04))
@@ -72,17 +72,18 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 55EC4E47)))
   (libparts
-    (libpart (lib device) (part R)
-      (description Resistor)
+    (libpart (lib conn) (part CONN_01X02)
       (footprints
-        (fp R_*)
-        (fp Resistor_*))
+        (fp Pin_Header_Straight_1X02)
+        (fp Pin_Header_Angled_1X02)
+        (fp Socket_Strip_Straight_1X02)
+        (fp Socket_Strip_Angled_1X02))
       (fields
-        (field (name Reference) R)
-        (field (name Value) R))
+        (field (name Reference) P)
+        (field (name Value) CONN_01X02))
       (pins
-        (pin (num 1) (name ~) (type passive))
-        (pin (num 2) (name ~) (type passive))))
+        (pin (num 1) (name P1) (type passive))
+        (pin (num 2) (name P2) (type passive))))
     (libpart (lib conn) (part CONN_01X04)
       (footprints
         (fp Pin_Header_Straight_1X04)
@@ -97,6 +98,60 @@
         (pin (num 2) (name P2) (type passive))
         (pin (num 3) (name P3) (type passive))
         (pin (num 4) (name P4) (type passive))))
+    (libpart (lib conn) (part CONN_01X06)
+      (footprints
+        (fp Pin_Header_Straight_1X06)
+        (fp Pin_Header_Angled_1X06)
+        (fp Socket_Strip_Straight_1X06)
+        (fp Socket_Strip_Angled_1X06))
+      (fields
+        (field (name Reference) P)
+        (field (name Value) CONN_01X06))
+      (pins
+        (pin (num 1) (name P1) (type passive))
+        (pin (num 2) (name P2) (type passive))
+        (pin (num 3) (name P3) (type passive))
+        (pin (num 4) (name P4) (type passive))
+        (pin (num 5) (name P5) (type passive))
+        (pin (num 6) (name P6) (type passive))))
+    (libpart (lib transistors) (part BC237)
+      (description "Vce 50V, Ic 100mA, NPN Epitaxial Silicon Transistor, TO-92")
+      (docs http://www.onsemi.com/pub_link/Collateral/BC237-D.PDF)
+      (footprints
+        (fp TO-92*))
+      (fields
+        (field (name Reference) Q)
+        (field (name Value) BC237)
+        (field (name Footprint) TO-92))
+      (pins
+        (pin (num 1) (name C) (type passive))
+        (pin (num 2) (name B) (type input))
+        (pin (num 3) (name E) (type passive))))
+    (libpart (lib device) (part R)
+      (description Resistor)
+      (footprints
+        (fp R_*)
+        (fp Resistor_*))
+      (fields
+        (field (name Reference) R)
+        (field (name Value) R))
+      (pins
+        (pin (num 1) (name ~) (type passive))
+        (pin (num 2) (name ~) (type passive))))
+    (libpart (lib device) (part D)
+      (description Diode)
+      (footprints
+        (fp Diode_*)
+        (fp D-Pak_TO252AA)
+        (fp *SingleDiode)
+        (fp *_Diode_*)
+        (fp *SingleDiode*))
+      (fields
+        (field (name Reference) D)
+        (field (name Value) D))
+      (pins
+        (pin (num 1) (name K) (type passive))
+        (pin (num 2) (name A) (type passive))))
     (libpart (lib w_connectors) (part RasPI_IO_Header)
       (fields
         (field (name Reference) J)
@@ -128,61 +183,6 @@
         (pin (num 24) (name GPIO8/CE0-0) (type passive))
         (pin (num 25) (name "(GND)") (type passive))
         (pin (num 26) (name GPIO7/CE1-0) (type passive))))
-    (libpart (lib transistors) (part BC237)
-      (description "Vce 50V, Ic 100mA, NPN Epitaxial Silicon Transistor, TO-92")
-      (docs http://www.onsemi.com/pub_link/Collateral/BC237-D.PDF)
-      (footprints
-        (fp TO-92*))
-      (fields
-        (field (name Reference) Q)
-        (field (name Value) BC237)
-        (field (name Footprint) TO-92))
-      (pins
-        (pin (num 1) (name C) (type passive))
-        (pin (num 2) (name B) (type input))
-        (pin (num 3) (name E) (type passive))))
-    (libpart (lib conn) (part CONN_01X02)
-      (footprints
-        (fp Pin_Header_Straight_1X02)
-        (fp Pin_Header_Angled_1X02)
-        (fp Socket_Strip_Straight_1X02)
-        (fp Socket_Strip_Angled_1X02))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X02))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))))
-    (libpart (lib conn) (part CONN_01X06)
-      (footprints
-        (fp Pin_Header_Straight_1X06)
-        (fp Pin_Header_Angled_1X06)
-        (fp Socket_Strip_Straight_1X06)
-        (fp Socket_Strip_Angled_1X06))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X06))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))))
-    (libpart (lib device) (part D)
-      (description Diode)
-      (footprints
-        (fp Diode_*)
-        (fp D-Pak_TO252AA)
-        (fp *SingleDiode)
-        (fp *_Diode_*)
-        (fp *SingleDiode*))
-      (fields
-        (field (name Reference) D)
-        (field (name Value) D))
-      (pins
-        (pin (num 1) (name K) (type passive))
-        (pin (num 2) (name A) (type passive))))
     (libpart (lib w_relay) (part RELAY_HJR-3FF_Z)
       (description "HJR-3FF Form C relay")
       (footprints
@@ -197,16 +197,16 @@
         (pin (num 4) (name ~) (type passive))
         (pin (num 5) (name ~) (type passive)))))
   (libraries
+    (library (logical transistors)
+      (uri /usr/share/kicad/library/transistors.lib))
     (library (logical conn)
       (uri /usr/share/kicad/library/conn.lib))
+    (library (logical w_relay)
+      (uri /home/adrian/sandbox/kicad_libs/library/w_relay.lib))
     (library (logical device)
       (uri /usr/share/kicad/library/device.lib))
     (library (logical w_connectors)
-      (uri /home/adrian/sandbox/kicad_libs/library/w_connectors.lib))
-    (library (logical transistors)
-      (uri /usr/share/kicad/library/transistors.lib))
-    (library (logical w_relay)
-      (uri /home/adrian/sandbox/kicad_libs/library/w_relay.lib)))
+      (uri /home/adrian/sandbox/kicad_libs/library/w_connectors.lib)))
   (nets
     (net (code 1) (name "Net-(J1-Pad9)")
       (node (ref J1) (pin 9))
