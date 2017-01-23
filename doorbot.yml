@@ -1,0 +1,51 @@
+---
+- name: DoES Liverpool doorbot on a Raspberry Pi
+  hosts: doorbot-pi
+  vars:
+    pi_name: doorbot
+  remote_user: pi
+  become: yes
+  become_method: sudo
+  roles:
+    - base-doorbot
+
+  pre_tasks:
+    - name: Update apt
+      apt: upgrade=dist update_cache=yes
+      become: true
+
+  tasks:
+  - name: Change Pis name
+    hostname: name="{{ pi_name }}"
+  - name: Update hosts file too
+    replace: dest=/etc/hosts regexp='raspberrypi' replace="{{ pi_name }}"
+  - name: Install mDNS so we can connect as doorbot.local
+    apt: name=libnss-mdns state=present
+  #- name: Install npm
+  #  apt: name=npm state=present
+  #- name: Upgrade npm to v2.x
+  #  npm: name=npm global=yes version=2.x
+  #- name: Clone the Etherpad repo
+  #  git: repo=git://github.com/ether/etherpad-lite.git dest=/home/pi/etherpad-lite
+  #- name: Make the pi user own the repo
+  #  file: path=/home/pi/etherpad-lite owner=pi recurse=yes
+  #- name: Copy across Etherpad settings
+  #  copy: src=settings.json dest=/home/pi/etherpad-lite/settings.json
+  #- name: Install all the node dependencies
+  #  command: /home/pi/etherpad-lite/bin/installDeps.sh
+  #- name: Copy across startup script
+  #  copy: src=etherpad.service dest=/lib/systemd/system/etherpad.service
+  #- name: Set Etherpad to start at boot
+  #  service: name=etherpad enabled=yes
+  #- name: Install redis node module
+  #  npm: name=node-red-node-redis global=yes
+  #  notify:
+  #    - restart nodered
+  #- name: Install PixelCheer Node RED node
+  #  synchronize: src=PixelCheerNode dest=/usr/lib/node_modules/
+  #  notify:
+  #    - restart nodered
+  #- name: Copy Node RED flow across
+  #  synchronize: src=flows_pixelcheer.json dest=/home/pi/.node-red/
+  #  notify:
+  #    - restart nodered

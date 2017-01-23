@@ -1,0 +1,6 @@
+# Install a base doorbot system (on a Raspberry Pi)
+---
+  - name: Install git
+    apt: name=git state=present
+  - name: Install ruby
+    apt: name=ruby state=present
