@@ -13,6 +13,8 @@
       action: service name=sshd state=restarted
 
   tasks:
+    - name: Change the default password
+      user: name=pi password="{{ pi_password }}"
     - name: Change the ssh port
       lineinfile:
         dest: /etc/ssh/sshd_config
