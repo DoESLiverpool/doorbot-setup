@@ -72,6 +72,12 @@
           @xset s noblank  # don't blank the video device
           @unclutter & # Get rid of the mouse cursor
           @kweb3 -CZDJK+-zbhrqfpoklgtjneduwxyavcsmi:#=?! /home/pi/doesscreens/index.html
+    - name: Remove the screensaver
+      lineinfile:
+        dest: /home/pi/.config/lxsession/LXDE-pi/autostart
+        state: absent
+        regexp: xscreensaver
+      become: false
     - name: Get rid of the mouse cursor
       apt: name=unclutter state=present
     - name: Rotate the display
