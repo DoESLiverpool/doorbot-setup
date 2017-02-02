@@ -78,6 +78,11 @@
         state: absent
         regexp: xscreensaver
       become: false
+    - name: Remove the screensaver from main LXDE
+      lineinfile:
+        dest: /etc/xdg/lxsession/LXDE-pi/autostart
+        state: absent
+        regexp: xscreensaver
     - name: Get rid of the mouse cursor
       apt: name=unclutter state=present
     - name: Rotate the display
