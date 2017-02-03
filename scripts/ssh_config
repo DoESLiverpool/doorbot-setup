@@ -1,14 +1,14 @@
 Host doorbot1
-HostName doorbot1
+HostName doorbot1.local
 User pi
 Port 2223
 
 Host doorbot2
-HostName doorbot2
+HostName doorbot2.local
 User pi
 Port 2224
 
 Host doorbot3
-HostName doorbot3
+HostName doorbot3.local
 User pi
 Port 2225
