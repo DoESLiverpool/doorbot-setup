@@ -83,6 +83,11 @@
         dest: /etc/xdg/lxsession/LXDE-pi/autostart
         state: absent
         regexp: xscreensaver
+    - name: Remove the screen blanking in lightdm
+      lineinfile:
+        dest: /etc/lightdm/lightdm.conf
+        regexp: "xserver-command"
+        line: "xserver-command=X -s 0 -dpms"
     - name: Get rid of the mouse cursor
       apt: name=unclutter state=present
     - name: Rotate the display
