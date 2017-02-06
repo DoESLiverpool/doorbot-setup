@@ -1,0 +1,50 @@
+---
+- name: Build the simple RFID reader on DoES Liverpool doorbot3
+  hosts: doorbot1-pi
+  vars:
+    pi_name: doorbot1
+    ansible_port: 2223
+  remote_user: pi
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Clone the simple RFID reader repo
+      git: repo=git://github.com/DoESLiverpool/simple_sl030_rfid_reader.git dest=/home/pi/simple_sl030_rfid_reader
+      become: false
+    - name: Download the bcm2835 library
+      get_url: url=http://www.airspayce.com/mikem/bcm2835/bcm2835-1.50.tar.gz dest=/home/pi/bcm2835-1.50.tar.gz
+      become: false
+    - name: Unpack the library
+      command: tar zxvf /home/pi/bcm2835-1.50.tar.gz
+      args:
+        chdir: /home/pi
+        creates: /home/pi/bcm2835-1.50
+      # FIXME We can move to unarchive for this once ansible 2.2 is in Ubuntu
+      #unarchive:
+      #  src: /home/pi/bcm285-1.50.tar.gz
+      #  dest: /home/pi/
+      #  remote_src: yes
+      become: false
+    - name: Configure the library
+      command: ./configure
+      args:
+        chdir: /home/pi/bcm2835-1.50
+        creates: /home/pi/bcm2835-1.50/Makefile
+      become: false
+    - name: Build the library
+      command: make
+      args:
+        chdir: /home/pi/bcm2835-1.50
+        creates: /home/pi/bcm2835-1.50/src/libbcm2835.a
+      become: false
+    - name: Install the library
+      command: make install
+      args:
+        chdir: /home/pi/bcm2835-1.50
+        creates: /usr/local/lib/libbcm2835.a
+    - name: Build simple RFID reader
+      command: gcc -static rfid_sl030.c -lbcm2835 -o rfid_sl030
+      args:
+        chdir: /home/pi/simple_sl030_rfid_reader
+        creates: /home/pi/simple_sl030_rfid_reader/rfid_sl030
