@@ -1,0 +1,72 @@
+# Install a base doorbot system (on a Raspberry Pi)
+---
+  - name: Change Pis name
+    hostname: name="{{ pi_name }}"
+  - name: Update hosts file too
+    replace: dest=/etc/hosts regexp='raspberrypi' replace="{{ pi_name }}"
+  - name: Install mDNS so we can connect as doorbot.local
+    apt: name=libnss-mdns state=present
+  - name: Install git
+    apt: name=git state=present
+  - name: Install ruby
+    apt: name=ruby state=present
+  - name: Install espeak
+    apt: name=espeak state=present
+  - name: Install screen
+    apt: name=screen state=present
+  - name: Install rsync
+    apt: name=rsync state=present
+  - name: Clone the logcards repo
+    git: repo=git://github.com/DoESLiverpool/logcards.git dest=/home/pi/logcards
+    become: false
+  - name: Install bundler
+    gem: name=bundler state=present user_install=no
+  - name: Install the logcards gems
+    bundler: gemfile=/home/pi/logcards/Gemfile state=present
+    become: false
+  - name: Copy across WiFi settings
+    copy: src=protected_scripts/wpa_supplicant.conf dest=/etc/wpa_supplicant/
+  - name: Copy ssh deploy keys for gitlab over
+    copy: src=protected_scripts/id_rsa dest=/home/pi/.ssh/ mode=0600
+    become: false
+  - name: Copy public ssh deploy key for gitlab over
+    copy: src=protected_scripts/id_rsa.pub dest=/home/pi/.ssh/ mode=0644
+    become: false
+  - name: Clone the doorbots-config repo
+    git: repo=ssh://git@gitlab.com/DoESLiverpool/doorbots-config.git dest=/home/pi/logcards/doorbots-config accept_hostkey=yes
+    become: false
+  - name: Install the config.yaml file
+    command: cp /home/pi/logcards/doorbots-config/_config.yaml /home/pi/logcards/doorbots-config/config.yaml
+    args:
+      creates: /home/pi/logcards/doorbots-config/config.yaml
+    become: false
+  - name: Set up symlink for the config.yaml
+    file: src=/home/pi/logcards/doorbots-config/config.yaml dest=/home/pi/logcards/config.yaml state=link
+    become: false
+  - name: Copy ringtones across
+    synchronize: src=wav dest=/home/pi/logcards
+    become: false
+  - name: Copy across logcards service script
+    command: cp /home/pi/logcards/systemd/logcards.service /lib/systemd/system/logcards.service
+    args:
+      creates: /lib/systemd/system/logcards.service
+  - name: Set the logcards service to start at boot
+    service: name=logcards enabled=yes
+  - name: Copy across config scripts
+    copy: src=scripts/reload-local-config.sh dest=/home/pi/ mode=0755
+    become: false
+  - name: Copy across config scripts
+    copy: src=scripts/reload-all-config.sh dest=/home/pi/ mode=0755
+    become: false
+  - name: Copy across ssh config 
+    copy: src=scripts/ssh_config dest=/home/pi/.ssh/config
+    become: false
+  - name: Set the doorbot config variable
+    lineinfile: 
+      dest: /etc/doorbot-env
+      create: yes
+      line: 'export DOORBOT_ENV="{{ pi_name }}"'
+  - name: Set the doorbot config variable in shells
+    lineinfile: 
+      dest: /etc/profile
+      line: 'export DOORBOT_ENV="{{ pi_name }}"'

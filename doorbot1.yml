@@ -1,0 +1,105 @@
+---
+- name: DoES Liverpool doorbot on a Raspberry Pi
+  hosts: doorbot1-pi
+  vars:
+    pi_name: doorbot1
+    ansible_port: 2223
+    pi_password:
+      - protected_scripts/doorbot1-pwd.txt
+  remote_user: pi
+  become: yes
+  become_method: sudo
+  roles:
+    - { role: base-doorbot, pi_name="doorbot1" }
+
+  pre_tasks:
+    - name: Update apt
+      apt: upgrade=dist update_cache=yes
+      become: true
+
+  tasks:
+    - name: Clone the doesscreens repo
+      git: repo=git://github.com/DoESLiverpool/doesscreens.git dest=/home/pi/doesscreens
+      become: false
+    - name: Set up the passwords for the screen
+      file: src=/home/pi/logcards/doorbots-config/passwords.js dest=/home/pi/doesscreens/passwords.js state=link
+      become: false
+    - name: Install X
+      apt: name=xserver-xorg install_recommends=no
+    - name: Install xinit
+      apt: name=xinit install_recommends=no
+    - name: Install PIXEL desktop environment
+      apt: name=raspberrypi-ui-mods
+    - name: Download the browser
+      get_url: url=http://steinerdatenbank.de/software/kweb-1.7.0.tar.gz dest=/home/pi/kweb-1.7.0.tar.gz
+      become: false
+    - name: Unpack the browser
+      command: tar zxvf /home/pi/kweb-1.7.0.tar.gz
+      args:
+        chdir: /home/pi
+        creates: /home/pi/kweb-1.7.0
+      # FIXME We can move to unarchive for this once ansible 2.2 is in Ubuntu
+      #unarchive:
+      #  src: /home/pi/kweb-1.7.0.tar.gz
+      #  dest: /home/pi/
+      #  remote_src: yes
+      become: false
+    - name: Install the browser
+      command: ./debinstall
+      args:
+        chdir: /home/pi/kweb-1.7.0
+        creates: /usr/bin/kweb3
+    - name: Restart the doorbot so LXDE creates all the config files
+      shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+      async: 1
+      poll: 0
+      ignore_errors: true
+    - name: waiting for server to come back
+      local_action: wait_for host=192.168.0.87 port=2223 state=started delay=30 timeout=300
+      #wait_for:
+      #  #host: {{ ansible_hostname }} 
+      #  port: "{{ ansible_port }}"
+      #  state: started 
+      #  delay: 30 
+      become: false
+    - name: Get the screen to start on boot
+      blockinfile:
+        dest: /home/pi/.config/lxsession/LXDE-pi/autostart
+        insertbefore: 'exit 0'
+        block: |
+          @xset s off      # don't activate screensaver
+          @xset -dpms      # disable DPMS (Energy Star) features.
+          @xset s noblank  # don't blank the video device
+          @unclutter & # Get rid of the mouse cursor
+          @kweb3 -CZDJK+-zbhrqfpoklgtjneduwxyavcsmi:#=?! /home/pi/doesscreens/index.html
+    - name: Remove the screensaver
+      lineinfile:
+        dest: /home/pi/.config/lxsession/LXDE-pi/autostart
+        state: absent
+        regexp: xscreensaver
+      become: false
+    - name: Remove the screensaver from main LXDE
+      lineinfile:
+        dest: /etc/xdg/lxsession/LXDE-pi/autostart
+        state: absent
+        regexp: xscreensaver
+    - name: Remove the screen blanking in lightdm
+      lineinfile:
+        dest: /etc/lightdm/lightdm.conf
+        regexp: "xserver-command"
+        line: "xserver-command=X -s 0 -dpms"
+    - name: Get rid of the mouse cursor
+      apt: name=unclutter state=present
+    - name: Rotate the display
+      blockinfile:
+        dest: /boot/config.txt
+        block: |
+          # Portrait mode for the display
+          display_rotate=3
+    - name: Ensure we have the volume turned up to max
+      command: amixer cset numid=1 -- 400
+    - name: Reboot the pi to check it comes up cleanly
+      command: sleep 2 && shutdown -r now "Ansible updates triggered"
+      async: 1
+      poll: 0
+      ignore_errors: true

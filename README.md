@@ -2,40 +2,29 @@
 
 A set of scripts to set up a DoESLiverpool DoorBot.
 
+## Structure
+
+DoES Liverpool has three types of doorbot.  Most of the basics are shared between them all, and that is all contained within the `base-doorbot` role.  Other roles, such as the one running a web browser for doorbot1, are layered on top of that.
+
 ## Steps:
 
- * Clone repositories and setup ruby bundle:
-
-```
-git clone https://github.com/DoESLiverpool/doorbot-setup.git
-cd doorbot-setup
-bundle install
-git clone https://bitbucket.org/doesliverpool/doorbots-config.git
-```
-
- * On a local linux machine with the SD mounted, run `sh initial-local-setup.sh <path-to-sd>` which will:
-  * Manually install stock raspbian.
-  * Enable SSH, ideally while SD card is plugged into local machine.
-  * Set up networking, WiFi if necessary
- * Set up Pi hardware and plug SD card into Pi
+1. Install [Ansible](https://www.ansible.com/get-started) on your computer
+1. Install the latest [Raspbian lite image](https://www.raspberrypi.org/downloads/raspbian/) onto a micro-SD card
+1. Boot the Raspberry Pi with the micro-SD card, while plugged into a network via Ethernet
+1. Find out the IP address of the Raspberry Pi
  * Use nmap (eg: `nmap -p 22 192.168.0.* --open`), router or monitor to find IP address of Pi once booted.
- * Set up SSH keys, ideally using ssh-copy-id or manually (place contents of your .ssh/id_rsa.pub into .ssh/authorized_keys on doorbot)
- * When you first boot up the Raspberry Pi, expand the filesystem to use the whole SD card
-```
-  sudo raspi-config
-```
- * Run `ruby remote-setup.rb -s <doorbot-environment>` which will:
-  * Set up SSH to run from alternative port
-   * Leave off the `-s` option once this step has been completed if you need to re-run the script.
-  * Run apt-get update/upgrade
-  * Set up the kernel modules
-  * Install required packages
-  * Set up SSH.
-   * *This will generate an SSH key for the doorbot which must be copied to BitBucket for the config repository*
-  * Set up the door entry system
-   * Git clone the logcards and config repositories
-   * Copy the startup script into /etc/init/
-  * If the env requires it, set up the door screen
-   * Install chromium
-   * Git clone the doesscreens repository
-   * Copy the startup script into /etc/init
+1. Copy your SSH credentials onto the Pi
+  ```ssh-copy-id pi@<ip-address-of-the-pi>```
+1. Edit the ```hosts``` file so ansible knows which computer to configure.  Change the IP address in it to match the one you just found out.
+1. Check you can run commands on the Pi using Ansible
+   ```ansible doorbot -i hosts -a "hostname" -u pi```
+1. Create the hashed password file to use in a moment (if you don't already have it). At the prompt, provide the relevant password for the doorbot
+   ```mkpasswd --method=sha-512 > protected_scripts/doorbot1-pwd.txt```
+1. Change the SSH port and default password on the doorbot
+   ```ansible-playbook ssh-config-doorbot1.yml -e pi_password=`cat protected_scripts/doorbot1-pwd.txt` -i hosts```
+1. Copy `protected_scripts/wpa_supplicant.conf.example` to `protected_scripts/wpa_supplicant.conf` and update it to the correct WiFi SSID/password
+1. Copy the SSH deploy keys to `protected_scripts`
+1. Update the Pi, using the correct playbook for the doorbot you're creating, e.g.
+   ```ansible-playbook doorbot1.yml -i hosts```
+
+

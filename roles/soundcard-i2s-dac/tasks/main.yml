@@ -1,0 +1,13 @@
+# Set up an I2S DAC soundcard (on a Raspberry Pi)
+---
+  - name: Enable the DAC
+    lineinfile: dest=/etc/modules line=i2c-dev
+  - name: Add the DAC device overlay
+    blockinfile:
+      dest: /boot/config.txt
+      block: |
+        dtparam=i2c_arm=on
+        dtparam=i2s=on
+        dtoverlay=hifiberry-dac
+  - name: Copy the sound config file across
+    copy: src=asound.conf dest=/etc/asound.conf

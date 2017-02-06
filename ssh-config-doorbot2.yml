@@ -1,0 +1,24 @@
+---
+- name: Change SSH port on DoES Liverpool doorbot2
+  hosts: doorbot2-pi
+  vars:
+    pi_name: doorbot2
+    new_ssh_port: 2224
+  remote_user: pi
+  become: yes
+  become_method: sudo
+
+  handlers:
+    - name: restart ssh
+      action: service name=sshd state=restarted
+
+  tasks:
+    - name: Change the default password
+      user: name=pi password="{{ pi_password }}"
+    - name: Change the ssh port
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^Port"
+        line: "Port {{ new_ssh_port }}"
+      notify: restart ssh
+

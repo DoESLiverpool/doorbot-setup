@@ -1,0 +1,4 @@
+wav/*
+protected_scripts/wpa_supplicant.conf
+protected_scripts/id_rsa*
+protected_scripts/doorbot*pwd.txt
