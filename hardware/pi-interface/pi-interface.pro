@@ -1,4 +1,4 @@
-update=Thu 10 Sep 2015 19:34:40 BST
+update=Sat 12 Aug 2017 15:58:49 BST
 version=1
 last_client=kicad
 [pcbnew]
@@ -20,9 +20,14 @@ SolderMaskMinWidth=0.000000000000
 DrawSegmentWidth=0.200000000000
 BoardOutlineThickness=0.100000000000
 ModuleOutlineThickness=0.150000000000
+[cvpcb]
+version=1
+NetIExt=net
+[general]
+version=1
 [eeschema]
 version=1
-LibDir=../../../../../kicad;../../../../kicad_libs;../../hardware
+LibDir=../../../../../kicad;../../../../kicad_libs;../../hardware;/home/adrian/Documents/MCQN Ltd
 [eeschema/libraries]
 LibName1=power
 LibName2=device
@@ -61,8 +66,4 @@ LibName34=kicad-library/library/relays
 LibName35=/home/adrian/sandbox/github/doorbot-setup/hardware/UserParts-KiCad
 LibName36=library/w_transistor
 LibName37=library/w_relay
-[cvpcb]
-version=1
-NetIExt=net
-[general]
-version=1
+LibName38=MCQN-Schematic-Components
