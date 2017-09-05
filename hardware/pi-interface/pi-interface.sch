@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:pi-interface-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -74,7 +75,7 @@ F 4 "2396251" H 7450 2000 60  0001 C CNN "Farnell Part"
 	1    0    0    1   
 $EndComp
 $Comp
-L CONN_01X04 P2
+L CONN_01X04-RESCUE-pi-interface P2
 U 1 1 55E0DD9F
 P 6450 1600
 F 0 "P2" H 6450 1850 50  0000 C CNN
