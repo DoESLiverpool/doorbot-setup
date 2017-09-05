@@ -94,6 +94,7 @@ F 0 "R1" V 6030 3350 50  0000 C CNN
 F 1 "220R" V 5950 3350 50  0000 C CNN
 F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 5880 3350 30  0001 C CNN
 F 3 "" H 5950 3350 30  0000 C CNN
+F 4 "1700228" V 5950 3350 60  0001 C CNN "Farnell Part"
 	1    5950 3350
 	0    1    1    0   
 $EndComp
@@ -105,6 +106,7 @@ F 0 "D1" H 6150 2650 50  0000 C CNN
 F 1 "D" H 6150 2450 50  0000 C CNN
 F 2 "Diodes_ThroughHole:Diode_DO-201AD_Horizontal_RM15" H 6150 2550 60  0001 C CNN
 F 3 "" H 6150 2550 60  0000 C CNN
+F 4 "2675047" H 6150 2550 60  0001 C CNN "Farnell Part"
 	1    6150 2550
 	0    1    1    0   
 $EndComp
@@ -116,6 +118,7 @@ F 0 "Q1" H 6600 3425 50  0000 L CNN
 F 1 "BC237" H 6600 3350 50  0000 L CNN
 F 2 "Transistors_TO-220:TO-220_Neutral123_Vertical_LargePads" H 6600 3275 50  0000 L CIN
 F 3 "" H 6400 3350 50  0000 L CNN
+F 4 "1574377" H 6400 3350 60  0001 C CNN "Farnell Part"
 	1    6400 3350
 	1    0    0    -1  
 $EndComp
@@ -152,6 +155,7 @@ F 0 "J1" H 3400 4628 50  0000 C CNN
 F 1 "Raspberry_Pi_2_3" H 3400 4537 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_2x20" H 4400 4400 50  0001 C CNN
 F 3 "" H 3450 3000 50  0001 C CNN
+F 4 "3419290" H 3400 3150 60  0001 C CNN "Farnell Part"
 	1    3400 3150
 	-1   0    0    -1  
 $EndComp
