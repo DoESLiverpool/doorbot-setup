@@ -23,8 +23,6 @@ DoES Liverpool has three types of doorbot.  Most of the basics are shared betwee
 1. Change the SSH port and default password on the doorbot
    ```ansible-playbook ssh-config-doorbot1.yml -e pi_password=`cat protected_scripts/doorbot1-pwd.txt` -i hosts```
 1. Copy `protected_scripts/wpa_supplicant.conf.example` to `protected_scripts/wpa_supplicant.conf` and update it to the correct WiFi SSID/password
-1. Copy the SSH deploy keys to `protected_scripts`
+1. Populate `protected_scripts/id_rsa` and `protected_scripts/id_rsa.pub`, most likely by copying contents from an existing doorbot.
 1. Update the Pi, using the correct playbook for the doorbot you're creating, e.g.
    ```ansible-playbook doorbot1.yml -i hosts```
-
-
