@@ -12,6 +12,7 @@
   roles:
     - { role: base-doorbot, pi_name="doorbot2" }
     - { role: soundcard-i2s-dac }
+    - { role: screen, pi_name="doorbot2" }
 
   pre_tasks:
     - name: Update apt

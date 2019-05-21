@@ -12,3 +12,13 @@ Host doorbot3
 HostName doorbot3.local
 User pi
 Port 2225
+
+Host doorbot4
+HostName doorbot4.local
+User pi
+Port 2226
+
+Host doorbot5
+HostName doorbot5.local
+User pi
+Port 2227

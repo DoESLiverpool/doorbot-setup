@@ -6,10 +6,14 @@
     replace: dest=/etc/hosts regexp='raspberrypi' replace="{{ pi_name }}"
   - name: Install mDNS so we can connect as doorbot.local
     apt: name=libnss-mdns state=present
+  - name: Copy across WiFi settings
+    copy: src=protected_scripts/wpa_supplicant.conf dest=/etc/wpa_supplicant/
   - name: Install git
     apt: name=git state=present
   - name: Install ruby
     apt: name=ruby state=present
+  - name: Install ruby-dev
+    apt: name=ruby-dev state=present
   - name: Install espeak
     apt: name=espeak state=present
   - name: Install screen
@@ -24,8 +28,6 @@
   - name: Install the logcards gems
     bundler: gemfile=/home/pi/logcards/Gemfile state=present
     become: false
-  - name: Copy across WiFi settings
-    copy: src=protected_scripts/wpa_supplicant.conf dest=/etc/wpa_supplicant/
   - name: Copy ssh deploy keys for gitlab over
     copy: src=protected_scripts/id_rsa dest=/home/pi/.ssh/ mode=0600
     become: false
@@ -33,7 +35,7 @@
     copy: src=protected_scripts/id_rsa.pub dest=/home/pi/.ssh/ mode=0644
     become: false
   - name: Clone the doorbots-config repo
-    git: repo=ssh://git@gitlab.com/DoESLiverpool/doorbots-config.git dest=/home/pi/logcards/doorbots-config accept_hostkey=yes
+    git: repo=git@github.com:DoESLiverpool/doorbots-config.git dest=/home/pi/logcards/doorbots-config accept_hostkey=yes
     become: false
   - name: Install the config.yaml file
     command: cp /home/pi/logcards/doorbots-config/_config.yaml /home/pi/logcards/doorbots-config/config.yaml
