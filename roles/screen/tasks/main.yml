@@ -31,6 +31,11 @@
     args:
       chdir: /home/pi/kweb-1.7.0
       creates: /usr/bin/kweb3
+  - name: Make sure lightdm will autologin
+    lineinfile:
+      dest: /etc/lightdm/lightdm.conf
+      regexp: "autologin-user=pi"
+      line: "autologin-user=pi"
   - name: Restart the doorbot so LXDE creates all the config files
     shell: sleep 2 && shutdown -r now "Ansible updates triggered"
     async: 1
