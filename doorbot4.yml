@@ -1,0 +1,26 @@
+---
+- name: DoES Liverpool doorbot on a Raspberry Pi
+  hosts: doorbot4-pi
+  vars:
+    pi_name: doorbot4
+    ansible_port: 2226
+    pi_password:
+      - protected_scripts/doorbot4-pwd.txt
+  remote_user: pi
+  become: yes
+  become_method: sudo
+  roles:
+    - { role: base-doorbot, pi_name="doorbot4" }
+    - { role: soundcard-i2s-dac }
+
+  pre_tasks:
+    - name: Update apt
+      apt: upgrade=dist update_cache=yes
+      become: true
+
+  tasks:
+    - name: Reboot the pi to check it comes up cleanly
+      command: sleep 2 && shutdown -r now "Ansible updates triggered"
+      async: 1
+      poll: 0
+      ignore_errors: true
