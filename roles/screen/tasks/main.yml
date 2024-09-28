@@ -1,7 +1,7 @@
 # Set up X and show a browser window constantly, with the screensaver disabled
 ---
   - name: Clone the doesscreens repo
-    git: repo=git://github.com/DoESLiverpool/doesscreens.git dest=/home/pi/doesscreens
+    git: repo=git@github.com:DoESLiverpool/doesscreens.git dest=/home/pi/doesscreens
     become: false
   - name: Set up the passwords for the screen
     file: src=/home/pi/logcards/doorbots-config/passwords.js dest=/home/pi/doesscreens/passwords.js state=link
@@ -42,7 +42,7 @@
     poll: 0
     ignore_errors: true
   - name: waiting for server to come back
-    local_action: wait_for host={{ pi_name }}.local port=2224 state=started delay=30 timeout=300
+    local_action: wait_for host={{ pi_name }}.local port={{ ansible_port }} state=started delay=30 timeout=300
     #wait_for:
     #  #host: {{ ansible_hostname }}
     #  port: "{{ ansible_port }}"
