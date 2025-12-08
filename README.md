@@ -9,7 +9,13 @@ DoES Liverpool has three types of doorbot.  Most of the basics are shared betwee
 ## Steps:
 
 1. Install [Ansible](https://www.ansible.com/get-started) on your computer
-1. Install the latest [Raspbian lite image](https://www.raspberrypi.org/downloads/raspbian/) onto a micro-SD card
+1. Using the [Raspberry Pi Imager](https://www.raspberrypi.com/software/) install the latest 32-bit (I think John had trouble with the RFID code on the 64-bit) OS (needs updating for the headless ones, I used the desktop one as it was `doorbot2` that I was fixing, but I think we'd want "Raspberry Pi OS Lite"), and edit the settings to configure:
+   * hostname
+   * password
+   * SSID
+   * WiFi password
+   * Enable the ssh service (use password authentication)
+   (this didn't actually seem to set any of those options when I just tried it, and I had to do them manually with a screen and keyboard when the Pi first booted up)
 1. Boot the Raspberry Pi with the micro-SD card, while plugged into a network via Ethernet
 1. Find out the IP address of the Raspberry Pi
  * Use nmap (eg: `nmap -p 22 10.0.*.* --open`), router or monitor to find IP address of Pi once booted.
@@ -22,7 +28,6 @@ DoES Liverpool has three types of doorbot.  Most of the basics are shared betwee
    ```mkpasswd --method=sha-512 > protected_scripts/doorbot1-pwd.txt```
 1. Change the SSH port and default password on the doorbot
    ```ansible-playbook ssh-config-doorbot1.yml -e pi_password=`cat protected_scripts/doorbot1-pwd.txt` -i hosts```
-1. Copy `protected_scripts/wpa_supplicant.conf.example` to `protected_scripts/wpa_supplicant.conf` and update it to the correct WiFi SSID/password
 1. Populate `protected_scripts/id_rsa` and `protected_scripts/id_rsa.pub`, most likely by copying contents from an existing doorbot.
 1. Update the Pi, using the correct playbook for the doorbot you're creating, e.g.
    ```ansible-playbook doorbot1.yml -i hosts```

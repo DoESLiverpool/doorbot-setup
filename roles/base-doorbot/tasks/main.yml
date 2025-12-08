@@ -6,8 +6,6 @@
     replace: dest=/etc/hosts regexp='raspberrypi' replace="{{ pi_name }}"
   - name: Install mDNS so we can connect as doorbot.local
     apt: name=libnss-mdns state=present
-  - name: Copy across WiFi settings
-    copy: src=protected_scripts/wpa_supplicant.conf dest=/etc/wpa_supplicant/
   - name: Install git
     apt: name=git state=present
   - name: Install ruby
@@ -30,10 +28,9 @@
     git: repo=git@github.com:DoESLiverpool/logcards.git dest=/home/pi/logcards
     become: false
   - name: Install bundler
-    gem: name=bundler state=present user_install=no
+    apt: name=ruby-bundler state=present
   - name: Install the logcards gems
     bundler: gemfile=/home/pi/logcards/Gemfile state=present
-    become: false
   - name: Clone the doorbots-config repo
     git: repo=git@github.com:DoESLiverpool/doorbots-config.git dest=/home/pi/logcards/doorbots-config accept_hostkey=yes
     become: false

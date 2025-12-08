@@ -10,27 +10,27 @@
     apt: name=xserver-xorg install_recommends=no
   - name: Install xinit
     apt: name=xinit install_recommends=no
-  - name: Install PIXEL desktop environment
-    apt: name=raspberrypi-ui-mods
-  - name: Download the browser
-    get_url: url=http://steinerdatenbank.de/software/kweb-1.7.0.tar.gz dest=/home/pi/kweb-1.7.0.tar.gz
-    become: false
-  - name: Unpack the browser
-    command: tar zxvf /home/pi/kweb-1.7.0.tar.gz
-    args:
-      chdir: /home/pi
-      creates: /home/pi/kweb-1.7.0
-    # FIXME We can move to unarchive for this once ansible 2.2 is in Ubuntu
-    #unarchive:
-    #  src: /home/pi/kweb-1.7.0.tar.gz
-    #  dest: /home/pi/
-    #  remote_src: yes
-    become: false
-  - name: Install the browser
-    command: ./debinstall
-    args:
-      chdir: /home/pi/kweb-1.7.0
-      creates: /usr/bin/kweb3
+  #- name: Install PIXEL desktop environment
+  #  apt: name=raspberrypi-ui-mods
+  #- name: Download the browser
+  #  get_url: url=http://steinerdatenbank.de/software/kweb-1.7.0.tar.gz dest=/home/pi/kweb-1.7.0.tar.gz
+  #  become: false
+  #- name: Unpack the browser
+  #  #command: tar zxvf /home/pi/kweb-1.7.0.tar.gz
+  #  #args:
+  #  #  chdir: /home/pi
+  #  #  creates: /home/pi/kweb-1.7.0
+  #  # FIXME We can move to unarchive for this once ansible 2.2 is in Ubuntu
+  #  unarchive:
+  #    src: /home/pi/kweb-1.7.0.tar.gz
+  #    dest: /home/pi/
+  #    remote_src: yes
+  #  become: false
+  #- name: Install the browser
+  #  command: ./debinstall
+  #  args:
+  #    chdir: /home/pi/kweb-1.7.0
+  #    creates: /usr/bin/kweb3
   - name: Make sure lightdm will autologin
     lineinfile:
       dest: /etc/lightdm/lightdm.conf
@@ -51,27 +51,27 @@
     become: false
   - pause: # Pause to make sure X has started and generated relevant files
       seconds: 10
-  - name: Get the screen to start on boot
-    blockinfile:
-      dest: /home/pi/.config/lxsession/LXDE-pi/autostart
-      insertbefore: 'exit 0'
-      block: |
-        @xset s off      # don't activate screensaver
-        @xset -dpms      # disable DPMS (Energy Star) features.
-        @xset s noblank  # don't blank the video device
-        @unclutter & # Get rid of the mouse cursor
-        @kweb3 -CZDJK+-zbhrqfpoklgtjneduwxyavcsmi:#=?! /home/pi/doesscreens/index.html
-  - name: Remove the screensaver
-    lineinfile:
-      dest: /home/pi/.config/lxsession/LXDE-pi/autostart
-      state: absent
-      regexp: xscreensaver
-    become: false
-  - name: Remove the screensaver from main LXDE
-    lineinfile:
-      dest: /etc/xdg/lxsession/LXDE-pi/autostart
-      state: absent
-      regexp: xscreensaver
+  #- name: Get the screen to start on boot
+  #  blockinfile:
+  #    dest: /home/pi/.config/lxsession/LXDE-pi/autostart
+  #    insertbefore: 'exit 0'
+  #    block: |
+  #      @xset s off      # don't activate screensaver
+  #      @xset -dpms      # disable DPMS (Energy Star) features.
+  #      @xset s noblank  # don't blank the video device
+  #      @unclutter & # Get rid of the mouse cursor
+  #      @kweb3 -CZDJK+-zbhrqfpoklgtjneduwxyavcsmi:#=?! /home/pi/doesscreens/index.html
+  #- name: Remove the screensaver
+  #  lineinfile:
+  #    dest: /home/pi/.config/lxsession/LXDE-pi/autostart
+  #    state: absent
+  #    regexp: xscreensaver
+  #  become: false
+  #- name: Remove the screensaver from main LXDE
+  #  lineinfile:
+  #    dest: /etc/xdg/lxsession/LXDE-pi/autostart
+  #    state: absent
+  #    regexp: xscreensaver
   - name: Remove the screen blanking in lightdm
     lineinfile:
       dest: /etc/lightdm/lightdm.conf

@@ -10,7 +10,7 @@
 
   handlers:
     - name: restart ssh
-      action: service name=sshd state=restarted
+      action: service name=ssh state=restarted
 
   tasks:
     - name: Change the default password
