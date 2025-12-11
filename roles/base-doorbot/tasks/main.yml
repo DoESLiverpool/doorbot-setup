@@ -34,6 +34,11 @@
   - name: Clone the doorbots-config repo
     git: repo=git@github.com:DoESLiverpool/doorbots-config.git dest=/home/pi/logcards/doorbots-config accept_hostkey=yes
     become: false
+  - name: Set up I2C overlay so we don't get interrupt errors for the RFID app (and then failure of the doorbot)
+    blockinfile:
+      dest: /boot/firmware/config.txt
+      block: |
+        dtoverlay=i2c-bcm2708
   - name: Install the config.yaml file
     command: cp /home/pi/logcards/doorbots-config/_config.yaml /home/pi/logcards/doorbots-config/config.yaml
     args:
