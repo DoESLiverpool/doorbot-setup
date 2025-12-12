@@ -19,10 +19,10 @@
   - name: Install rsync
     apt: name=rsync state=present
   - name: Copy ssh deploy keys for gitlab over
-    copy: src=protected_scripts/id_rsa dest=/home/pi/.ssh/ mode=0600
+    copy: src=protected_scripts/id_ed25519 dest=/home/pi/.ssh/ mode=0600
     become: false
   - name: Copy public ssh deploy key for gitlab over
-    copy: src=protected_scripts/id_rsa.pub dest=/home/pi/.ssh/ mode=0644
+    copy: src=protected_scripts/id_ed25519.pub dest=/home/pi/.ssh/ mode=0644
     become: false
   - name: Clone the logcards repo
     git: repo=git@github.com:DoESLiverpool/logcards.git dest=/home/pi/logcards
